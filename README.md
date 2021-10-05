@@ -3,7 +3,7 @@ A set of tools to work with the KEMS model.
 The packages required to run the scripts in this repo can be installed 
 by running the following command on the command line:
 ```
-pip install -r requirements
+pip install -r requirements.txt
 ```
 
 It is recommended that the packages are installed in a newly created environment.
