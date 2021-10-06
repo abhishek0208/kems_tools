@@ -8,8 +8,8 @@ import numpy as np
 import time
 pd.__version__
 
-output_folder = r'C:\Users\abhis\Google Drive\Kuungana Advisory_South Sudan\Model files\Model runs\14092021_v1\JSON'
-csv_folder = r'C:\Users\abhis\Google Drive\Kuungana Advisory_South Sudan\Model files\Model runs\14092021_v3\CSV'
+output_folder = r'C:\Users\abhis\Google Drive\Kuungana Advisory_South Sudan\Model files\Model runs\06102021_v1\JSON'
+csv_folder = r'C:\Users\abhis\Google Drive\Kuungana Advisory_South Sudan\Model files\Model runs\06102021_v1\CSV'
 
 final_df = pd.DataFrame(columns=['Year','Month', 'Day','Hour','Generator','Resource','Variable','Value'],
                         dtype=object)
@@ -72,17 +72,20 @@ for each_json in os.listdir(output_folder):
                         'ResourceConsumptionTotal': ['Resource', 'Hour'],
                         'ShortRunMarginalCostByGenerator': ['Generator'],
                         'TotalCost': ['Hour'],
-                        'UnservedEnergy': ['Hour']}
+                        'UnservedEnergy': ['Hour']
+                        }
+
+    variable_list = list(df['Variable'].unique())
 
     # Loop through each index of each variable 
     for each_variable in variable_columns.keys():
         index_count = 0
-
-        for each_index in variable_columns[each_variable]:
-            df.loc[df['Variable'] == each_variable,
-                   each_index] = (df[df['Variable'] == each_variable]['Indices']
-                                  .str.split(',', expand=True)[index_count])
-            index_count += 1
+        if each_variable in variable_list:
+            for each_index in variable_columns[each_variable]:
+                df.loc[df['Variable'] == each_variable,
+                       each_index] = (df[df['Variable'] == each_variable]['Indices']
+                                      .str.split(',', expand=True)[index_count])
+                index_count += 1
 
     # Split CapacityFactor
     # df[['Generator', 'Hour']] = (df[df['Variable'] == 'CapacityFactor']['Indices']
